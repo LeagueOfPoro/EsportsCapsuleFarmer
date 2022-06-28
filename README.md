@@ -35,6 +35,12 @@ Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github
 3. Install the Python virtual environment - `pipenv install`
 4. Run the tool - `pipenv run python .\main.py`
 
+### Create EXE
+1.  `pipenv install --dev`
+2.  `pipenv run pyinstaller -F --icon=poro.ico .\main.py`
+
+
 ## Future features
+- Force the video player to use Twitch (in progress)
 - Automatic log in
 - Headless browser (if possible)

@@ -5,6 +5,11 @@ import chromedriver_autoinstaller
 import time
 from pprint import pprint
 
+# Force Twitch player
+OVERRIDDES = {
+    "https://lolesports.com/live/lck_challengers_league": "https://lolesports.com/live/lck_challengers_league/lckcl"
+}
+
 def getLiveMatches(driver):
     matches = []
     elements = driver.find_elements(by=By.CSS_SELECTOR, value="a.match.live")
@@ -32,6 +37,7 @@ currentWindows = {}
 originalWindow = driver.current_window_handle
 
 while True:
+    driver.switch_to.window(originalWindow) # just to be sure
     liveMatches = getLiveMatches(driver)
     log.info(f"{len(liveMatches)} matches live")
 
@@ -52,8 +58,13 @@ while True:
     log.info(f"{len(newLiveMatches)} new matches")
     for match in newLiveMatches:
         driver.switch_to.new_window('tab')
-        driver.get(match)
         currentWindows[match] = driver.current_window_handle
+        if match in OVERRIDDES:
+            url = OVERRIDDES[match]
+        else:
+            url = match
+        driver.get(match)
+        
     driver.switch_to.window(originalWindow)
     time.sleep(600)
 

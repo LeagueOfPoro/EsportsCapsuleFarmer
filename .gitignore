@@ -25,6 +25,7 @@ sharepython-wheels
 .installed.cfg
 .egg
 MANIFEST
+main.spec
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
