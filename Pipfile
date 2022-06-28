@@ -8,6 +8,7 @@ selenium = "*"
 chromedriver-autoinstaller = "*"
 
 [dev-packages]
+pyinstaller = "*"
 
 [requires]
 python_version = "3.10"
