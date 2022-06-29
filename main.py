@@ -64,9 +64,10 @@ while True:
         else:
             url = match
         driver.get(match)
-        
+        time.sleep(60)
+
     driver.switch_to.window(originalWindow)
-    time.sleep(600)
+    time.sleep(900)
 
 
 
