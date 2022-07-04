@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 import chromedriver_autoinstaller
 import time
 from pprint import pprint
+import yaml
+
 
 # Force Twitch player
 OVERRIDDES = {
@@ -13,6 +15,7 @@ OVERRIDDES = {
     "https://lolesports.com/live/lec":"https://lolesports.com/live/lec/lec",
     "https://lolesports.com/live/lcs":"https://lolesports.com/live/lcs/lcs"
 }
+CONFIG_LOCATION="config.yaml"
 
 def getLiveMatches(driver):
     matches = []
@@ -21,10 +24,32 @@ def getLiveMatches(driver):
         matches.append(element.get_attribute("href"))
     return matches
 
+def readConfig(filepath):
+    with open(filepath, "r") as f:
+        return yaml.safe_load(f)
+
+# def logIn(driver, username, password):
+#     driver.get("https://lolesports.com/")
+#     time.sleep(2)
+#     pass
+
+#https://auth.riotgames.com/login
 ###################################################
-log = logging.getLogger("Farmer")
+log = logging.getLogger("League of Poro")
 log.setLevel('DEBUG')
 chromedriver_autoinstaller.install()
+
+hasValidConfig = False
+username = None
+password = None
+try:
+    config = readConfig(CONFIG_LOCATION)
+    hasValidConfig = True
+    pprint(config)
+except FileNotFoundError:
+    log.warn("Configuration file not found. IGNORING...")
+except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
+    log.warn("Invalid configuration file. IGNORING...")
 
 options = webdriver.ChromeOptions() 
 driver = webdriver.Chrome(options=options)
@@ -42,6 +67,7 @@ originalWindow = driver.current_window_handle
 
 while True:
     driver.switch_to.window(originalWindow) # just to be sure
+    time.sleep(5)
     liveMatches = getLiveMatches(driver)
     log.info(f"{len(liveMatches)} matches live")
 
@@ -54,6 +80,7 @@ while True:
             driver.close()
             toRemove.append(k)
             driver.switch_to.window(originalWindow)
+            time.sleep(5)
     for k in toRemove:
         currentWindows.pop(k, None)
 
@@ -62,6 +89,7 @@ while True:
     log.info(f"{len(newLiveMatches)} new matches")
     for match in newLiveMatches:
         driver.switch_to.new_window('tab')
+        time.sleep(2)
         currentWindows[match] = driver.current_window_handle
         if match in OVERRIDDES:
             url = OVERRIDDES[match]

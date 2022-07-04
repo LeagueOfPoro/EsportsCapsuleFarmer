@@ -6,10 +6,10 @@ name = "pypi"
 [packages]
 selenium = "*"
 chromedriver-autoinstaller = "*"
+pyyaml = "*"
 
 [dev-packages]
 pyinstaller = "*"
 
 [requires]
 python_version = "3.10"
-
