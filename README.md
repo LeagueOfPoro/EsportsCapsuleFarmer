@@ -5,7 +5,7 @@ Are you tired of watching professional League of Legends games? Do you watch onl
 This tool makes the Chrome browser watch the matches for you!
 
 ### Tutorial
-*Will be added here*
+[![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
 
 ## Features
 - Checks for new live matches
