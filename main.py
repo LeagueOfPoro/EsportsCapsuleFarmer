@@ -25,7 +25,7 @@ CONFIG_LOCATION="config.yaml"
 
 def getLiveMatches(driver):
     matches = []
-    elements = driver.find_elements(by=By.CSS_SELECTOR, value="a.match.live")
+    elements = driver.find_elements(by=By.CSS_SELECTOR, value=".live.event")
     for element in elements:
         matches.append(element.get_attribute("href"))
     return matches
@@ -35,7 +35,7 @@ def readConfig(filepath):
         return yaml.safe_load(f)
 
 def logIn(driver, username, password):
-    driver.get("https://lolesports.com/")
+    driver.get("https://lolesports.com/schedule")
     time.sleep(2)
 
     log.info("Moving to log in page")
@@ -99,7 +99,7 @@ options.add_argument('log-level=3')
 if isHeadless and hasAutoLogin:
     options.add_argument("--headless")
 driver = webdriver.Chrome(options=options)
-driver.get("https://lolesports.com/")
+driver.get("https://lolesports.com/schedule")
 
 if hasAutoLogin:
     try:
@@ -125,7 +125,7 @@ originalWindow = driver.current_window_handle
 while True:
     driver.switch_to.window(originalWindow) # just to be sure
     time.sleep(2)
-    driver.get("https://lolesports.com/")
+    driver.get("https://lolesports.com/schedule")
     time.sleep(5)
     liveMatches = getLiveMatches(driver)
     log.info(f"{len(liveMatches)} matches live")
@@ -166,6 +166,3 @@ while True:
 
     driver.switch_to.window(originalWindow)
     time.sleep(900)
-
-
-
