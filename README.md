@@ -4,27 +4,35 @@ Are you tired of watching professional League of Legends games? Do you watch onl
 
 This tool makes the Chrome browser watch the matches for you!
 
-### Tutorial
-[![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
-
-## Features
+### Features
 - Checks for new live matches
 - Closes finished matches
 - Automatically logs user in
 - Runs in background
 - Sets Twitch quality to lowest possible
 
-## Requirements
-- [Chrome browser](https://www.google.com/chrome/)
+### Video Tutorial
+[![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
 
-## How to use
-1. Start the program
-2. Wait for the browser to load
-3. Log in
-4. Sit back and relax
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/LeagueOfPoro/EsportsCapsuleFarmer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/LeagueOfPoro/EsportsCapsuleFarmer/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/LeagueOfPoro/EsportsCapsuleFarmer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/LeagueOfPoro/EsportsCapsuleFarmer/context:python)
+
+## Installation (simple)
+
+**⚠️ This project utilizes the [Google Chrome browser](https://www.google.com/chrome/). Please ensure you have it installed before attempting to run the project.**
+
+1. Download and run the latest CapsuleFarmer.zip from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases)
+2. Extract the archive
+3. (Optional) Edit the configuration file with a text editor (e.g. Notepad) - see [Configuration](#configuration) for details
+4. Run `CapsuleFarmer.exe`
+5. If you do not use the autologin feature - log into your account 
 
 ## Configuration
-**The configuration file ([config.yaml](config.yaml)) must be present in the same folder as the executable!**
+**⚠️ The configuration file ([config.yaml](config.yaml)) MUST be present in the SAME folder as the executable!**
+
+Default configuration:
+```yaml
+version: 1.1
 
 Default configuration:
 ```yaml
@@ -46,11 +54,14 @@ autologin:
   password: YourPassword
 ```
 
-## Installation (simple)
-1. Download and run the latest CapsuleFarmer.zip from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases)
-2. Extract the archive
-3. (Optional) Edit the configuration file with a text editor (e.g. Notepad) - see [Configuration](#configuration) for details
-4. Run `CapsuleFarmer.exe` 
+## Common Errors/Issues
+
+- *The Riot Account login page is not loading*
+    - Simply refresh the page a bunch of times. This is an issue with the website, not the program.
+- *There are warnings / errors but the program runs fine* 
+    - You can ignore them. These are most of the time Chrome related warnings and errors. As long as the program runs fine, you can ignore them.
+- *It doesn't work*
+    - [Have you tried turning it off and on again?](https://www.youtube.com/watch?v=p85xwZ_OLX0)
 
 ## Installation (advanced)
 
