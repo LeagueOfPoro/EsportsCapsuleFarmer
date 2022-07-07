@@ -34,10 +34,6 @@ Default configuration:
 ```yaml
 version: 1.1
 
-Default configuration:
-```yaml
-version: 1.1
-
 headless: false
 autologin:
   enable: false
