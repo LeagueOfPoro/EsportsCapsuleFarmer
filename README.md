@@ -39,8 +39,10 @@ Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github
 1.  `pipenv install --dev`
 2.  `pipenv run pyinstaller -F --icon=poro.ico .\main.py`
 
-
 ## Future features
 - Force the video player to use Twitch (in progress)
 - Automatic log in
 - Headless browser (if possible)
+
+## Support my work
+<a href='https://www.youtube.com/channel/UCwgpdTScSd788qILhLnyyyw/join' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://share.leagueofporo.com/yt_member.png' border='0' alt='Become a channel member on YouTube' />
