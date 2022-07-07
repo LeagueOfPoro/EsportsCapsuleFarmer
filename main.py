@@ -17,6 +17,7 @@ OVERRIDDES = {
     "https://lolesports.com/live/lck":"https://lolesports.com/live/lck/lck",
     "https://lolesports.com/live/lec":"https://lolesports.com/live/lec/lec",
     "https://lolesports.com/live/lcs":"https://lolesports.com/live/lcs/lcs",
+    "https://lolesports.com/live/lco":"https://lolesports.com/live/lco/lco",
     "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol"
 }
 CONFIG_LOCATION="config.yaml"
@@ -56,6 +57,15 @@ def logIn(driver, username, password):
     wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
 
 
+def setTwitchQuality(driver):
+    wait = WebDriverWait(driver, 10)
+    wait.until(ec.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[title=Twitch]")))
+    settingsButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "button[data-a-target=player-settings-button]")))
+    driver.execute_script("arguments[0].click();", settingsButton)
+    qualityButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "button[data-a-target=player-settings-menu-item-quality]")))
+    driver.execute_script("arguments[0].click();", qualityButton)
+    options = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, "input[data-a-target=tw-radio]")))
+    driver.execute_script("arguments[0].click();", options[-1])
 
 ###################################################
 log = logging.getLogger("League of Poro")
@@ -66,7 +76,7 @@ hasValidConfig = False
 hasAutoLogin = False
 isHeadless = False
 username = "NoUsernameInConfig" # None
-password = "NoPasswordInConfig" #  None
+password = "NoPasswordInConfig" # None
 try:
     config = readConfig(CONFIG_LOCATION)
     hasValidConfig = True
@@ -90,7 +100,6 @@ if isHeadless and hasAutoLogin:
     options.add_argument("--headless")
 driver = webdriver.Chrome(options=options)
 driver.get("https://lolesports.com/")
-time.sleep(2)
 
 if hasAutoLogin:
     try:
@@ -115,7 +124,7 @@ originalWindow = driver.current_window_handle
 
 while True:
     driver.switch_to.window(originalWindow) # just to be sure
-    time.sleep(5)
+    time.sleep(2)
     driver.get("https://lolesports.com/")
     time.sleep(5)
     liveMatches = getLiveMatches(driver)
@@ -147,6 +156,12 @@ while True:
         else:
             url = match
         driver.get(url)
+        time.sleep(5)
+        try:
+            setTwitchQuality(driver)
+            log.info("Twitch quality set successfully")
+        except:
+            log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
         time.sleep(30)
 
     driver.switch_to.window(originalWindow)
