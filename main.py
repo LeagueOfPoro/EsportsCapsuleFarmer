@@ -52,6 +52,7 @@ except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
     log.warn("Invalid configuration file. IGNORING...")
 
 options = webdriver.ChromeOptions() 
+options.add_argument('log-level=3')
 driver = webdriver.Chrome(options=options)
 driver.get("https://lolesports.com/")
 time.sleep(2)
@@ -68,6 +69,8 @@ originalWindow = driver.current_window_handle
 while True:
     driver.switch_to.window(originalWindow) # just to be sure
     time.sleep(5)
+    driver.get("https://lolesports.com/")
+    time.sleep(15)
     liveMatches = getLiveMatches(driver)
     log.info(f"{len(liveMatches)} matches live")
 
