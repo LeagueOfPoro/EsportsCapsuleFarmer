@@ -1,0 +1,6 @@
+version: 1.0
+
+autologin:
+  enable: false               # set to true to enable automatic login
+  username: YourUsername
+  password: YourPassword
