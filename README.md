@@ -48,7 +48,7 @@ autologin:
 ## Installation (simple)
 1. Download and run the latest CapsuleFarmer.zip from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases)
 2. Extract the archive
-3. (Optional) Edit the configuration file - see [Configuration](#configuration) for details
+3. (Optional) Edit the configuration file with a text editor (e.g. Notepad) - see [Configuration](#configuration) for details
 4. Run `CapsuleFarmer.exe` 
 
 ## Installation (advanced)
