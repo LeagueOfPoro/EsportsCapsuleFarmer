@@ -10,6 +10,8 @@ This tool makes the Chrome browser watch the matches for you!
 ## Features
 - Checks for new live matches
 - Closes finished matches
+- Automatically logs user in
+- Runs in background
 
 ## Requirements
 - [Chrome browser](https://www.google.com/chrome/)
@@ -20,8 +22,34 @@ This tool makes the Chrome browser watch the matches for you!
 3. Log in
 4. Sit back and relax
 
+## Configuration
+**The configuration file ([config.yaml](config.yaml)) must be present in the same folder as the executable!**
+
+Default configuration:
+```yaml
+version: 1.1
+
+headless: false
+autologin:
+  enable: false
+```
+
+If you wish to enable automatic login and to run the browser in the background:
+```yaml
+version: 1.1
+
+headless: true
+autologin:
+  enable: true
+  username: YourUsername
+  password: YourPassword
+```
+
 ## Installation (simple)
-Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases).
+1. Download and run the latest CapsuleFarmer.zip from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases)
+2. Extract the archive
+3. (Optional) Edit the configuration file - see [Configuration](#configuration) for details
+4. Run `CapsuleFarmer.exe` 
 
 ## Installation (advanced)
 
@@ -33,7 +61,8 @@ Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github
 1. Clone this repo - `git clone https://github.com/LeagueOfPoro/EsportsCapsuleFarmer.git`
 2. Move to the directory -  `cd EsportsCapsuleFarmer`
 3. Install the Python virtual environment - `pipenv install`
-4. Run the tool - `pipenv run python .\main.py`
+4. (Optional) Edit the configuration file
+5. Run the tool - `pipenv run python .\main.py`
 
 ### Create EXE
 1.  `pipenv install --dev`
@@ -42,5 +71,3 @@ Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github
 
 ## Future features
 - Force the video player to use Twitch (in progress)
-- Automatic log in
-- Headless browser (if possible)
