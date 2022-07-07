@@ -4,26 +4,36 @@ Are you tired of watching professional League of Legends games? Do you watch onl
 
 This tool makes the Chrome browser watch the matches for you!
 
-### Tutorial
-[![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
-
-## Features
+### Features
 - Checks for new live matches
 - Closes finished matches
 
-## Requirements
-- [Chrome browser](https://www.google.com/chrome/)
+### Video Tutorial
+[![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
 
-## How to use
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/LeagueOfPoro/EsportsCapsuleFarmer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/LeagueOfPoro/EsportsCapsuleFarmer/alerts/)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/LeagueOfPoro/EsportsCapsuleFarmer.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/LeagueOfPoro/EsportsCapsuleFarmer/context:python)
+
+# Requirements
+This project utilizes the [Google Chrome browser](https://www.google.com/chrome/). Please ensure you have it installed before attempting to build or run the project.
+
+# Installation
+Download and run the latest CapsuleFarmer.exe from the [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases). Alternatively, you can build the project your self following the instructions [here](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer#compile-the-program-your-self)
+
+# How to use
 1. Start the program
 2. Wait for the browser to load
 3. Log in
 4. Sit back and relax
 
-## Installation (simple)
-Download and run the latest CapsuleFarmer.exe from [Releases tab](https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases).
+# Common Errors/Issues
 
-## Installation (advanced)
+### - The Riot Account login page is not loading
+Simply refresh the page a bunch of times. This is an issue with the website, not the program. 
+### - There are warnings / errors but the program runs fine 
+You can ignore them. These are most of the time Chrome related warnings and errors. As long as the program runs fine, you can ignore them.
+
+# Compile the program your self
 
 ### Prerequisities
 - Python 3.10
