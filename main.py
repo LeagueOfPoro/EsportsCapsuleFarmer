@@ -46,10 +46,20 @@ try:
     config = readConfig(CONFIG_LOCATION)
     hasValidConfig = True
     pprint(config)
-except FileNotFoundError:
-    log.warn("Configuration file not found. IGNORING...")
+except FileNotFoundError:     
+    log.warn("============================================================================")
+    log.warn("=                                                                          =")
+    log.warn("=               Configuration file not found. IGNORING...                  =")
+    log.warn("=                                                                          =")
+    log.warn("============================================================================")
 except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
-    log.warn("Invalid configuration file. IGNORING...")
+    # Using error here to get the attention of the user and log this 'exception' in the config file
+    log.error("============================================================================")
+    log.error("=                                                                          =")
+    log.error("=                 INVALID configuration file! IGNORING...                  =")
+    log.error("=                Your configuration options are NOT used!!                 =")
+    log.error("=                                                                          =")
+    log.error("============================================================================")
 
 options = webdriver.ChromeOptions() 
 options.add_argument('log-level=3')
