@@ -12,6 +12,7 @@ This tool makes the Chrome browser watch the matches for you!
 - Closes finished matches
 - Automatically logs user in
 - Runs in background
+- Sets Twitch quality to lowest possible
 
 ## Requirements
 - [Chrome browser](https://www.google.com/chrome/)
