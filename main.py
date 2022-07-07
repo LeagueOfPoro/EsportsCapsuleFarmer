@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import TimeoutException
 import chromedriver_autoinstaller
 import time
 from pprint import pprint
@@ -19,6 +20,7 @@ OVERRIDDES = {
     "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol"
 }
 CONFIG_LOCATION="config.yaml"
+#CONFIG_LOCATION="config.dev.yaml" # development only
 
 def getLiveMatches(driver):
     matches = []
@@ -34,22 +36,25 @@ def readConfig(filepath):
 def logIn(driver, username, password):
     driver.get("https://lolesports.com/")
     time.sleep(2)
-    els = driver.find_elements(by=By.CSS_SELECTOR, value="a[data-riotbar-link-id=login]")
-    for el in els:
-        try:
-            el.click()
-        except:
-            continue 
-    wait = WebDriverWait(driver, 10)
-    usernameInput = wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, "input[name=username]")))
+
+    log.info("Moving to log in page")
+    el = driver.find_element(by=By.CSS_SELECTOR, value="a[data-riotbar-link-id=login]")
+    driver.execute_script("arguments[0].click();", el)
+
+    log.info("Logging in")
+
+    wait = WebDriverWait(driver, 20)
+    usernameInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[name=username]")))
     usernameInput.send_keys(username)
-    passwordInput = wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, "input[name=password]")))
+    passwordInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "input[name=password]")))
     passwordInput.send_keys(password)
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
-    submitButton.click()
-
+    driver.execute_script("arguments[0].click();", submitButton)
+    
+    log.info("Credentials submited")
     # wait until the login process finishes
-    wait.until(ec.visibility_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name"))) 
+    wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
+
 
 
 ###################################################
@@ -59,6 +64,7 @@ chromedriver_autoinstaller.install()
 
 hasValidConfig = False
 hasAutoLogin = False
+isHeadless = False
 username = "NoUsernameInConfig" # None
 password = "NoPasswordInConfig" #  None
 try:
@@ -69,6 +75,8 @@ try:
             username = config["autologin"]["username"]
             password = config["autologin"]["password"]
             hasAutoLogin = True
+    if "headless" in config:
+        isHeadless = config["headless"]
 except FileNotFoundError:
     log.warning("Configuration file not found. IGNORING...")
 except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
@@ -78,18 +86,27 @@ except KeyError:
 
 options = webdriver.ChromeOptions() 
 options.add_argument('log-level=3')
+if isHeadless and hasAutoLogin:
+    options.add_argument("--headless")
 driver = webdriver.Chrome(options=options)
 driver.get("https://lolesports.com/")
 time.sleep(2)
 
 if hasAutoLogin:
-    logIn(driver, username, password)
+    try:
+        logIn(driver, username, password)
+    except TimeoutException:
+        log.error("Automatic login failed, incorrect credentials?")
+        if isHeadless:
+            driver.quit()
+            log.info("Exitting...")
+            exit()
 
 while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-name"):
     if not hasAutoLogin:
         log.info("Waiting for log in")
     else: 
-        log.info("Automatic login failed, please log in manually")
+        log.info("Please log in manually")
     time.sleep(5)
 log.info("Okay, we're in")
 time.sleep(5)
