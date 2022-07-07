@@ -109,7 +109,6 @@ while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-n
         log.info("Please log in manually")
     time.sleep(5)
 log.info("Okay, we're in")
-time.sleep(5)
 
 currentWindows = {}
 originalWindow = driver.current_window_handle
@@ -118,7 +117,7 @@ while True:
     driver.switch_to.window(originalWindow) # just to be sure
     time.sleep(5)
     driver.get("https://lolesports.com/")
-    time.sleep(15)
+    time.sleep(5)
     liveMatches = getLiveMatches(driver)
     log.info(f"{len(liveMatches)} matches live")
 
