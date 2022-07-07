@@ -56,6 +56,17 @@ autologin:
     - Simply refresh the page a bunch of times. This is an issue with the website, not the program.
 - *There are warnings / errors but the program runs fine* 
     - You can ignore them. These are most of the time Chrome related warnings and errors. As long as the program runs fine, you can ignore them.
+- *Program crashes immediately*
+  ```
+  Traceback (most recent call last):
+  File "main.py", line 73, in <module>
+  File "chromedriver_autoinstaller\__init__.py", line 20, in install
+  File "chromedriver_autoinstaller\utils.py", line 195, in download_chromedriver
+  File "chromedriver_autoinstaller\utils.py", line 118, in get_chrome_version
+  IndexError: list index out of range
+  [7016] Failed to execute script 'main' due to unhandled exception!
+  ```
+    - You don't have Google Chrome installed.
 - *It doesn't work*
     - [Have you tried turning it off and on again?](https://www.youtube.com/watch?v=p85xwZ_OLX0)
 
