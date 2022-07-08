@@ -30,6 +30,8 @@ This tool makes the Chrome browser watch the matches for you!
 ## Configuration
 **⚠️ The configuration file ([config.yaml](config.yaml)) MUST be present in the SAME folder as the executable!**
 
+**⚠️ Automatic login will not work with 2FA enabled.**
+
 Default configuration:
 ```yaml
 version: 1.1
