@@ -81,11 +81,11 @@ autologin:
 2. Move to the directory -  `cd EsportsCapsuleFarmer`
 3. Install the Python virtual environment - `pipenv install`
 4. (Optional) Edit the configuration file
-5. Run the tool - `pipenv run python .\main.py`
+5. Run the tool - `pipenv run python ./main.py`
 
 ### Create EXE
 1.  `pipenv install --dev`
-2.  `pipenv run pyinstaller -F --icon=poro.ico .\main.py`
+2.  `pipenv run pyinstaller -F --icon=poro.ico ./main.py`
 
 ## Future features
 - Force the video player to use Twitch (in progress)
