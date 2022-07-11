@@ -6,7 +6,6 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
 import chromedriver_autoinstaller
 import time
-from pprint import pprint
 import yaml
 
 
@@ -147,7 +146,6 @@ while True:
 
     # Open new live matches
     newLiveMatches = set(liveMatches) - set(currentWindows.keys())
-    # log.info(f"{len(newLiveMatches)} new matches")
     for match in newLiveMatches:
         driver.switch_to.new_window('tab')
         time.sleep(2)
