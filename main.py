@@ -18,7 +18,9 @@ OVERRIDDES = {
     "https://lolesports.com/live/lec":"https://lolesports.com/live/lec/lec",
     "https://lolesports.com/live/lcs":"https://lolesports.com/live/lcs/lcs",
     "https://lolesports.com/live/lco":"https://lolesports.com/live/lco/lco",
-    "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol"
+    "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol",
+    "https://lolesports.com/live/cblol":"https://lolesports.com/live/cblol/cblol",
+    "https://lolesports.com/live/lla":"https://lolesports.com/live/lla/lla"
 }
 CONFIG_LOCATION="config.yaml"
 #CONFIG_LOCATION="config.dev.yaml" # development only
