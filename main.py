@@ -119,7 +119,7 @@ username = "NoUsernameInConfig" # None
 password = "NoPasswordInConfig" # None
 try:
     config = readConfig(args.configPath)
-    hasValidConfig = True
+    log.info(f"Using configuration from: {args.configPath}")
     if "autologin" in config:
         if config["autologin"]["enable"]:
             username = config["autologin"]["username"]
