@@ -4,9 +4,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
-import chromedriver_autoinstaller
+from selenium.webdriver.firefox.service import Service as FirefoxService
+from selenium.webdriver.chrome.service import Service as ChromeService
+from selenium.webdriver.edge.service import Service as EdgeService
+from selenium_driver_updater import DriverUpdater
 import time
 import yaml
+import argparse
 
 
 # Force Twitch player
@@ -21,8 +25,30 @@ OVERRIDDES = {
     "https://lolesports.com/live/cblol":"https://lolesports.com/live/cblol/cblol",
     "https://lolesports.com/live/lla":"https://lolesports.com/live/lla/lla"
 }
-CONFIG_LOCATION="config.yaml"
-#CONFIG_LOCATION="config.dev.yaml" # development only
+
+def createWebdriver(browser, headless):
+    match browser:
+        case "chrome":
+            driverPath = DriverUpdater.install(path=".", driver_name=DriverUpdater.chromedriver, upgrade=True, check_driver_is_up_to_date=True, old_return=False)
+            options = addWebdriverOptions(webdriver.ChromeOptions() , headless)
+            service = ChromeService(driverPath)
+            return webdriver.Chrome(service=service, options=options)            
+        case "firefox":
+            driverPath = DriverUpdater.install(path=".", driver_name=DriverUpdater.geckodriver, upgrade=True, check_driver_is_up_to_date=True, old_return=False)
+            options = addWebdriverOptions(webdriver.FirefoxOptions() , headless)
+            service = FirefoxService(driverPath)
+            return webdriver.Firefox(service=service, options=options)
+        case "edge":  # NO CURRENT DRIVER AVAILABLE
+            driverPath = DriverUpdater.install(path=".", driver_name=DriverUpdater.edgedriver, upgrade=True, check_driver_is_up_to_date=True, old_return=False)
+            options = addWebdriverOptions(webdriver.EdgeOptions() , headless)
+            service = EdgeService(driverPath)
+            return webdriver.Edge(service=service, options=options)
+
+def addWebdriverOptions(options, headless):
+    options.add_argument('log-level=3')
+    if headless:
+        options.add_argument("--headless")
+    return options
 
 def getLiveMatches(driver):
     matches = []
@@ -69,17 +95,30 @@ def setTwitchQuality(driver):
     driver.execute_script("arguments[0].click();", options[-1])
 
 ###################################################
+
+parser = argparse.ArgumentParser(prog='CapsuleFarmer.exe', description='Farm Esports Capsules by watching lolesports.com.')
+parser.add_argument('-b', '--browser', dest="browser", choices=['chrome', 'firefox', 'edge'], default="chrome",
+                    help='Select one of the supported browsers')
+parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml",
+                    help='Path to a custom config file')
+args = parser.parse_args()
+
+print("*********************************************************")
+print("*          Thank you for using Capsule Farmer!          *")
+print("* Please consider supporting League of Poro on YouTube. *")
+print("*********************************************************")
+print()
+
+logging.basicConfig(format='%(levelname)s: %(asctime)s - %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
 log = logging.getLogger("League of Poro")
 log.setLevel('DEBUG')
-chromedriver_autoinstaller.install()
 
-hasValidConfig = False
 hasAutoLogin = False
 isHeadless = False
 username = "NoUsernameInConfig" # None
 password = "NoPasswordInConfig" # None
 try:
-    config = readConfig(CONFIG_LOCATION)
+    config = readConfig(args.configPath)
     hasValidConfig = True
     if "autologin" in config:
         if config["autologin"]["enable"]:
@@ -95,11 +134,10 @@ except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
 except KeyError:
     log.warning("Configuration file is missing mandatory entries. Using default values instead...")
 
-options = webdriver.ChromeOptions() 
-options.add_argument('log-level=3')
-if isHeadless and hasAutoLogin:
-    options.add_argument("--headless")
-driver = webdriver.Chrome(options=options)
+if not (isHeadless and hasAutoLogin):
+    log.info("Consider using the headless mode for improved performance and stability.")
+driver = createWebdriver(args.browser, isHeadless and hasAutoLogin)
+
 driver.get("https://lolesports.com/schedule")
 
 if hasAutoLogin:
@@ -165,4 +203,4 @@ while True:
         time.sleep(30)
 
     driver.switch_to.window(originalWindow)
-    time.sleep(900)
+    time.sleep(600)

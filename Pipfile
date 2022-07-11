@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 selenium = "*"
-chromedriver-autoinstaller = "*"
 pyyaml = "*"
+selenium-driver-updater = "*"
 
 [dev-packages]
 pyinstaller = "*"

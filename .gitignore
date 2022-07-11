@@ -1,5 +1,7 @@
 # Sensitive configs
 config.dev.yaml
+*.exe
+*.log
 
 # Byte-compiled  optimized  DLL files
 __pycache__
