@@ -1,4 +1,5 @@
 import logging
+import logging.config
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -107,6 +108,12 @@ print("*          Thank you for using Capsule Farmer!          *")
 print("* Please consider supporting League of Poro on YouTube. *")
 print("*********************************************************")
 print()
+
+# Mutes preexisting loggers like selenium_driver_updater
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': True,
+})
 
 log = logging.getLogger("League of Poro")
 log.setLevel('DEBUG')
