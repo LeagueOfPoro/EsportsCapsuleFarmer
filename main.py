@@ -45,7 +45,7 @@ def createWebdriver(browser, headless):
             return webdriver.Edge(service=service, options=options)
 
 def addWebdriverOptions(options, headless):
-    options.add_argument("--log-level=3")
+    options.add_argument("log-level=3")
     if headless:
         options.add_argument("--headless")
     return options
