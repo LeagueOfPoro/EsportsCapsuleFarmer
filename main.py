@@ -12,7 +12,6 @@ import time
 import yaml
 import argparse
 
-
 # Force Twitch player
 OVERRIDDES = {
     "https://lolesports.com/live/lck_challengers_league":"https://lolesports.com/live/lck_challengers_league/lckcl",
@@ -45,7 +44,7 @@ def createWebdriver(browser, headless):
             return webdriver.Edge(service=service, options=options)
 
 def addWebdriverOptions(options, headless):
-    options.add_argument('log-level=3')
+    options.add_argument("--log-level=3")
     if headless:
         options.add_argument("--headless")
     return options
@@ -109,9 +108,13 @@ print("* Please consider supporting League of Poro on YouTube. *")
 print("*********************************************************")
 print()
 
-logging.basicConfig(format='%(levelname)s: %(asctime)s - %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
 log = logging.getLogger("League of Poro")
 log.setLevel('DEBUG')
+ch = logging.StreamHandler()
+ch.setLevel('DEBUG')
+formatter = logging.Formatter('%(levelname)s: %(asctime)s - %(message)s', '%Y/%m/%d %H:%M:%S')
+ch.setFormatter(formatter)
+log.addHandler(ch)
 
 hasAutoLogin = False
 isHeadless = False
