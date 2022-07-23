@@ -14,7 +14,7 @@ import yaml
 import argparse
 
 # Force Twitch player
-OVERRIDDES = {
+OVERRIDES = {
     "https://lolesports.com/live/lck_challengers_league":"https://lolesports.com/live/lck_challengers_league/lckcl",
     "https://lolesports.com/live/lpl":"https://lolesports.com/live/lpl/lpl",
     "https://lolesports.com/live/lck":"https://lolesports.com/live/lck/lck",
@@ -65,7 +65,7 @@ def logIn(driver, username, password):
     driver.get("https://lolesports.com/schedule")
     time.sleep(2)
 
-    log.info("Moving to log in page")
+    log.info("Moving to login page")
     el = driver.find_element(by=By.CSS_SELECTOR, value="a[data-riotbar-link-id=login]")
     driver.execute_script("arguments[0].click();", el)
 
@@ -79,7 +79,7 @@ def logIn(driver, username, password):
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
     driver.execute_script("arguments[0].click();", submitButton)
     
-    log.info("Credentials submited")
+    log.info("Credentials submitted")
     # wait until the login process finishes
     wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
 
@@ -130,11 +130,10 @@ password = "NoPasswordInConfig" # None
 try:
     config = readConfig(args.configPath)
     log.info(f"Using configuration from: {args.configPath}")
-    if "autologin" in config:
-        if config["autologin"]["enable"]:
-            username = config["autologin"]["username"]
-            password = config["autologin"]["password"]
-            hasAutoLogin = True
+    if "autologin" in config and config["autologin"]["enable"]:
+        username = config["autologin"]["username"]
+        password = config["autologin"]["password"]
+        hasAutoLogin = True
     if "headless" in config:
         isHeadless = config["headless"]
 except FileNotFoundError:
@@ -157,12 +156,12 @@ if hasAutoLogin:
         log.error("Automatic login failed, incorrect credentials?")
         if isHeadless:
             driver.quit()
-            log.info("Exitting...")
+            log.info("Exiting...")
             exit()
 
 while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-name"):
     if not hasAutoLogin:
-        log.info("Waiting for log in")
+        log.info("Waiting for login")
     else: 
         log.info("Please log in manually")
     time.sleep(5)
@@ -198,8 +197,8 @@ while True:
         driver.switch_to.new_window('tab')
         time.sleep(2)
         currentWindows[match] = driver.current_window_handle
-        if match in OVERRIDDES:
-            url = OVERRIDDES[match]
+        if match in OVERRIDES:
+            url = OVERRIDES[match]
             log.info(f"Overriding {match} to {url}")
         else:
             url = match
@@ -208,7 +207,7 @@ while True:
         try:
             setTwitchQuality(driver)
             log.info("Twitch quality set successfully")
-        except:
+        except TimeoutException:
             log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
         time.sleep(30)
 
