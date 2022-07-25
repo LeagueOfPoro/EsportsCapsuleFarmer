@@ -141,6 +141,8 @@ hasAutoLogin = False
 isHeadless = False
 username = "NoUsernameInConfig" # None
 password = "NoPasswordInConfig" # None
+browser = args.browser
+delay = args.delay
 try:
     config = readConfig(args.configPath)
     log.info(f"Using configuration from: {args.configPath}")
@@ -150,6 +152,10 @@ try:
         hasAutoLogin = True
     if "headless" in config:
         isHeadless = config["headless"]
+    if "browser" in config and config["browser"] in ['chrome', 'firefox', 'edge']:
+        browser = config["browser"]
+    if "delay" in config:
+        delay = int(config["delay"])
 except FileNotFoundError:
     log.warning("Configuration file not found. IGNORING...")
 except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
@@ -159,7 +165,7 @@ except KeyError:
 
 if not (isHeadless and hasAutoLogin):
     log.info("Consider using the headless mode for improved performance and stability.")
-driver = createWebdriver(args.browser, isHeadless and hasAutoLogin)
+driver = createWebdriver(browser, isHeadless and hasAutoLogin)
 
 driver.get("https://lolesports.com/schedule")
 
@@ -237,4 +243,4 @@ while True:
 
     driver.switch_to.window(originalWindow)
     log.info(f"Next check: {datetime.now() + timedelta(seconds=args.delay)}")
-    time.sleep(args.delay)
+    time.sleep(delay)
