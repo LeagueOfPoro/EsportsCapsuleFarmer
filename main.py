@@ -12,6 +12,7 @@ from selenium_driver_updater import DriverUpdater
 import time
 import yaml
 import argparse
+from datetime import datetime, timedelta
 
 # Force Twitch player
 OVERRIDES = {
@@ -93,6 +94,17 @@ def setTwitchQuality(driver):
     driver.execute_script("arguments[0].click();", qualityButton)
     options = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, "input[data-a-target=tw-radio]")))
     driver.execute_script("arguments[0].click();", options[-1])
+    driver.switch_to.default_content()
+
+def checkRewards(driver):
+    wait = WebDriverWait(driver, 15)
+    try:
+        wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div[class=status-summary] g")))
+    except TimeoutException:
+        return False
+    return True
+    
+    
 
 ###################################################
 
@@ -101,6 +113,8 @@ parser.add_argument('-b', '--browser', dest="browser", choices=['chrome', 'firef
                     help='Select one of the supported browsers')
 parser.add_argument('-c', '--config', dest="configPath", default="./config.yaml",
                     help='Path to a custom config file')
+parser.add_argument('-d', '--delay', dest="delay", default=600, type=int,
+                    help='Time spent sleeping between match checking (in seconds)')
 args = parser.parse_args()
 
 print("*********************************************************")
@@ -176,7 +190,7 @@ while True:
     driver.get("https://lolesports.com/schedule")
     time.sleep(5)
     liveMatches = getLiveMatches(driver)
-    log.info(f"{len(liveMatches)} matches live")
+    log.info(f"There are {len(liveMatches)} matches live")
 
     # Close windows finished matches
     toRemove = []
@@ -193,6 +207,7 @@ while True:
 
     # Open new live matches
     newLiveMatches = set(liveMatches) - set(currentWindows.keys())
+    log.info(f"Opening {len(newLiveMatches)} new matches")
     for match in newLiveMatches:
         driver.switch_to.new_window('tab')
         time.sleep(2)
@@ -203,13 +218,23 @@ while True:
         else:
             url = match
         driver.get(url)
-        time.sleep(5)
+        for i in range(5):
+            if checkRewards(driver):
+                log.info("✓ Eligible for rewards ✓")
+                break
+            else:
+                if i < 4:
+                    log.info("Not eligible for rewards. Retrying...")
+                    driver.refresh()
+                else:
+                    log.warning("This stream is not eligible for rewards")
         try:
             setTwitchQuality(driver)
             log.info("Twitch quality set successfully")
         except TimeoutException:
             log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
-        time.sleep(30)
+        time.sleep(5)
 
     driver.switch_to.window(originalWindow)
-    time.sleep(600)
+    log.info(f"Next check: {datetime.now() + timedelta(seconds=args.delay)}")
+    time.sleep(args.delay)
