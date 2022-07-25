@@ -117,7 +117,7 @@ options:
 ## Installation (advanced)
 
 ### Prerequisities
-- Python 3.10
+- Python 3.10.1
 - pipenv (`pip install pipenv`)
 
 ### Step by step
