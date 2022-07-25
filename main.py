@@ -213,7 +213,6 @@ while True:
 
     # Open new live matches
     newLiveMatches = set(liveMatches) - set(currentWindows.keys())
-    log.info(f"Opening {len(newLiveMatches)} new matches")
     for match in newLiveMatches:
         driver.switch_to.new_window('tab')
         time.sleep(2)
