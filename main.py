@@ -59,7 +59,7 @@ def getLiveMatches(driver):
     return matches
 
 def readConfig(filepath):
-    with open(filepath, "r") as f:
+    with open(filepath, "r",  encoding='utf-8') as f:
         return yaml.safe_load(f)
 
 def logIn(driver, username, password):
@@ -96,13 +96,27 @@ def setTwitchQuality(driver):
     driver.execute_script("arguments[0].click();", options[-1])
     driver.switch_to.default_content()
 
-def checkRewards(driver):
+def findRewardsCheckmark(driver):
     wait = WebDriverWait(driver, 15)
     try:
         wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div[class=status-summary] g")))
     except TimeoutException:
         return False
     return True
+
+def checkRewards(driver, url, retries=5):
+    splitUrl = url.rsplit('/',1)
+    match = splitUrl[1] if 1 < len(splitUrl) else "Match "
+    for i in range(retries):
+        if findRewardsCheckmark(driver):
+            log.info(f"{match} is eligible for rewards ✓")
+            break
+        else:
+            if i < 4:
+                log.info(f"{match} is not eligible for rewards. Retrying...")
+                driver.refresh()
+            else:
+                log.warning(f"{match} is not eligible for rewards") 
     
     
 
@@ -201,15 +215,18 @@ while True:
     # Close windows finished matches
     toRemove = []
     for k in currentWindows.keys():
+        driver.switch_to.window(currentWindows[k])
         if k not in liveMatches:
             log.info(f"{k} has finished")
-            driver.switch_to.window(currentWindows[k])
             driver.close()
             toRemove.append(k)
             driver.switch_to.window(originalWindow)
             time.sleep(5)
+        else:
+            checkRewards(driver, url)
     for k in toRemove:
         currentWindows.pop(k, None)
+    driver.switch_to.window(originalWindow)  
 
     # Open new live matches
     newLiveMatches = set(liveMatches) - set(currentWindows.keys())
@@ -223,16 +240,7 @@ while True:
         else:
             url = match
         driver.get(url)
-        for i in range(5):
-            if checkRewards(driver):
-                log.info("✓ Eligible for rewards ✓")
-                break
-            else:
-                if i < 4:
-                    log.info("Not eligible for rewards. Retrying...")
-                    driver.refresh()
-                else:
-                    log.warning("This stream is not eligible for rewards")
+        checkRewards(driver, url)
         try:
             setTwitchQuality(driver)
             log.info("Twitch quality set successfully")
