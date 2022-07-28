@@ -223,7 +223,7 @@ while True:
             driver.switch_to.window(originalWindow)
             time.sleep(5)
         else:
-            checkRewards(driver, url)
+            checkRewards(driver, k)
     for k in toRemove:
         currentWindows.pop(k, None)
     driver.switch_to.window(originalWindow)  
