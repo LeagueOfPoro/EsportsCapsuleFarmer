@@ -115,6 +115,12 @@ def checkRewards(driver, url, retries=5):
             if i < 4:
                 log.info(f"{match} is not eligible for rewards. Retrying...")
                 driver.refresh()
+                time.sleep(2)
+                try:
+                    setTwitchQuality(driver)
+                    log.info("Twitch quality set successfully")
+                except TimeoutException:
+                    log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
             else:
                 log.warning(f"{match} is not eligible for rewards") 
     
