@@ -119,7 +119,23 @@ def checkRewards(driver, url, retries=5):
                 driver.refresh()
             else:
                 log.warning(f"{match} is not eligible for rewards") 
-    
+
+def checkPlatform(driver):
+    iframe = WebDriverWait(driver, 15).until(ec.presence_of_element_located((By.CSS_SELECTOR, "div>iframe")))    
+    #print(iframe.get_attribute("src"))
+    streamSourceUrl=iframe.get_attribute("src")
+    platformName = streamSourceUrl.split(".")[1]
+    return platformName
+
+def tryToSwitchPlatform(name, driver):
+    wait = WebDriverWait(driver, 15)
+    optionsButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div[class=options-button]")))
+    driver.execute_script("arguments[0].click();", optionsButton)
+    platformListButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div[class=option]")))
+    driver.execute_script("arguments[0].click();", platformListButton)
+    selectPlatformButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "ul>li.twitch")))
+    driver.execute_script("arguments[0].click();", selectPlatformButton)
+    log.info("Stream changed to twitch")
     
 
 ###################################################
@@ -241,13 +257,17 @@ while True:
             log.info(f"Overriding {match} to {url}")
         else:
             url = match
-        driver.get(url)
-        checkRewards(driver, url)
-        try:
+        driver.get(url)        
+        streamingPlatform = checkPlatform(driver)        
+        if (streamingPlatform != "twitch"):
+            log.info("Match is not on twitch, trying to change")
+            tryToSwitchPlatform(streamingPlatform,driver)
+        checkRewards(driver, url)        
+        try:            
             setTwitchQuality(driver)
             log.info("Twitch quality set successfully")
         except TimeoutException:
-            log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
+            log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")            
         time.sleep(5)
 
     driver.switch_to.window(originalWindow)
