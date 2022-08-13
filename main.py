@@ -31,7 +31,6 @@ def createWebdriver(browser, headless):
     """
     Creates the web driver which is automatically controlled by the program
     """
-    
     match browser:
         case "chrome":
             driverPath = DriverUpdater.install(path=".", driver_name=DriverUpdater.chromedriver, upgrade=True, check_driver_is_up_to_date=True, old_return=False)
@@ -59,7 +58,6 @@ def getLiveMatches(driver):
     """
     Fetches all the current/live esports matches on the LoL Esports website.
     """
-    
     matches = []
     elements = driver.find_elements(by=By.CSS_SELECTOR, value=".live.event")
     for element in elements:
@@ -74,7 +72,6 @@ def logIn(driver, username, password):
     """
     Automatically logs into the user's account on the LoL Esports website.
     """
-    
     driver.get("https://lolesports.com/schedule")
     time.sleep(2)
 
@@ -102,7 +99,6 @@ def setTwitchQuality(driver):
     Sets the Twitch player quality to the last setting in the video quality list.
     This corresponds to setting the video quality to the lowest value.
     """
-    
     wait = WebDriverWait(driver, 10)
     wait.until(ec.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[title=Twitch]")))
     settingsButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "button[data-a-target=player-settings-button]")))
