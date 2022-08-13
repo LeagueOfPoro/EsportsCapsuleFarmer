@@ -24,7 +24,9 @@ OVERRIDES = {
     "https://lolesports.com/live/lco":"https://lolesports.com/live/lco/lco",
     "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol",
     "https://lolesports.com/live/cblol":"https://lolesports.com/live/cblol/cblol",
-    "https://lolesports.com/live/lla":"https://lolesports.com/live/lla/lla"
+    "https://lolesports.com/live/lla":"https://lolesports.com/live/lla/lla",
+    "https://lolesports.com/live/ljl-japan/ljl":"https://lolesports.com/live/ljl-japan/riotgamesjp",
+    "https://lolesports.com/live/turkiye-sampiyonluk-ligi":"https://lolesports.com/live/turkiye-sampiyonluk-ligi/riotgamesturkish"
 }
 
 def createWebdriver(browser, headless):
