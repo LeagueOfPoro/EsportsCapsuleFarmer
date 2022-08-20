@@ -100,6 +100,47 @@ def setTwitchQuality(driver):
     driver.execute_script("arguments[0].click();", options[-1])
     driver.switch_to.default_content()
 
+def isVideoPlayerTwitch(driver):
+    wait = WebDriverWait(driver, 20)
+    wait.until(ec.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe")))
+    driver.switch_to.default_content()
+
+    optionsButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.WatchOptions > div.options-button")))
+    driver.execute_script("arguments[0].click();", optionsButton)
+
+    playerOptions = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.stream-section > div.options-list > div.option")))
+    driver.execute_script("arguments[0].click();", playerOptions)
+    
+    wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, ".WatchOptionsStream")))
+    if len(driver.find_elements(by=By.CSS_SELECTOR, value="div.WatchOptionsStream > div.provider-selection > ul.providers > li.option.twitch.selected")) == 1:
+        return True
+    elif len(driver.find_elements(by=By.CSS_SELECTOR, value="div.WatchOptionsStream > div.provider-selection > ul.providers > li.option.twitch")) == 0:
+        return None
+    else:
+        return False
+
+def setTwitchPlayer(driver):
+    isTwitch = isVideoPlayerTwitch(driver)
+
+    # None => Twitch Player is not available
+    if isTwitch == None:
+        raise Exception("Twitch Player not available!")
+
+    # False => Player is currently not set to Twitch
+    elif isTwitch == False:
+        # Selecting Twitch as provider
+        streamProviders = driver.find_element(by=By.CSS_SELECTOR, value="div.WatchOptionsStream > div.provider-selection > ul.providers.options-list > li.option.twitch")
+        streamProviders.click()
+
+        # Selecting first stream from Twitch
+        if len(driver.find_elements(by=By.CSS_SELECTOR, value="div.WatchOptionsStream > div.stream-selection > ul.streams.options-list > li.option")) > 1:
+            stream = driver.find_element(by=By.CSS_SELECTOR, value="div.WatchOptionsStream > div.stream-selection > ul.streams.options-list > li.option:first-child")
+            stream.click()
+    
+    # True => Player is already set to Twitch
+    else:
+        raise Exception("Player already set to Twitch")
+
 def findRewardsCheckmark(driver):
     wait = WebDriverWait(driver, 15)
     try:
@@ -244,6 +285,12 @@ while True:
         else:
             url = match
         driver.get(url)
+
+        try:
+            setTwitchPlayer(driver)
+        except Exception as e:
+            pass
+
         checkRewards(driver, url)
         try:
             setTwitchQuality(driver)
