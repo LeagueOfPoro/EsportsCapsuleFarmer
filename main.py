@@ -214,7 +214,10 @@ while True:
     driver.get("https://lolesports.com/schedule")
     time.sleep(5)
     liveMatches = getLiveMatches(driver)
-    log.info(f"There are {len(liveMatches)} matches live")
+    if len(liveMatches) == 1:
+        log.info(f"There is 1 match live")
+    else:
+        log.info(f"There are {len(liveMatches)} matches live")
 
     # Close windows finished matches
     toRemove = []
