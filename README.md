@@ -53,8 +53,8 @@ If you wish to enable automatic login and to run the browser in the background:
 headless: true
 autologin:
   enable: true
-  username: YourUsername
-  password: YourPassword
+  username: "YourUsername"
+  password: "YourPassword"
 ```
 
 Experimental support for alternative browsers (default: _chrome_):
