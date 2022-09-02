@@ -94,11 +94,27 @@ def logIn(driver, username, password):
     passwordInput.send_keys(password)
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
     driver.execute_script("arguments[0].click();", submitButton)
-    
     log.info("Credentials submitted")
+
+    # check for 2FA
+    time.sleep(5);
+    if len(driver.find_elements(by=By.CSS_SELECTOR, value="div.text__web-code")) > 0:
+        insertTwoFactorCode(driver)
+
     # wait until the login process finishes
     wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
 
+def insertTwoFactorCode(driver):
+    wait = WebDriverWait(driver, 20)
+    authText = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "h5.grid-panel__subtitle")))
+    log.info(f'Enter 2FA code ({authText.text})')
+    code = input('Code: ')
+    codeInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.codefield__code--empty > div > input")))
+    codeInput.send_keys(code)
+
+    submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
+    driver.execute_script("arguments[0].click();", submitButton)
+    log.info("Code submitted")
 
 def setTwitchQuality(driver):
     """
