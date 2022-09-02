@@ -28,10 +28,15 @@ OVERRIDES = {
     "https://lolesports.com/live/ljl-japan/ljl":"https://lolesports.com/live/ljl-japan/riotgamesjp",
     "https://lolesports.com/live/ljl-japan":"https://lolesports.com/live/ljl-japan/riotgamesjp",
     "https://lolesports.com/live/turkiye-sampiyonluk-ligi":"https://lolesports.com/live/turkiye-sampiyonluk-ligi/riotgamesturkish",
-    "https://lolesports.com/live/cblol-brazil" : "https://lolesports.com/live/cblol-brazil/cblol"
+    "https://lolesports.com/live/cblol-brazil":"https://lolesports.com/live/cblol-brazil/cblol"
+    "https://lolesports.com/live/pcs/lXLbvl3T_lc":"https://lolesports.com/live/pcs/lolpacific"
+    "https://lolesports.com/live/ljl_academy/ljl":"https://lolesports.com/live/ljl_academy/riotgamesjp"
 }
 
 def createWebdriver(browser, headless):
+    """
+    Creates the web driver which is automatically controlled by the program
+    """
     match browser:
         case "chrome":
             driverPath = DriverUpdater.install(path=".", driver_name=DriverUpdater.chromedriver, upgrade=True, check_driver_is_up_to_date=True, old_return=False)
@@ -56,6 +61,9 @@ def addWebdriverOptions(options, headless):
     return options
 
 def getLiveMatches(driver):
+    """
+    Fetches all the current/live esports matches on the LoL Esports website.
+    """
     matches = []
     elements = driver.find_elements(by=By.CSS_SELECTOR, value=".live.event")
     for element in elements:
@@ -67,6 +75,9 @@ def readConfig(filepath):
         return yaml.safe_load(f)
 
 def logIn(driver, username, password):
+    """
+    Automatically logs into the user's account on the LoL Esports website.
+    """
     driver.get("https://lolesports.com/schedule")
     time.sleep(2)
 
@@ -83,13 +94,33 @@ def logIn(driver, username, password):
     passwordInput.send_keys(password)
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
     driver.execute_script("arguments[0].click();", submitButton)
-    
     log.info("Credentials submitted")
+
+    # check for 2FA
+    time.sleep(5);
+    if len(driver.find_elements(by=By.CSS_SELECTOR, value="div.text__web-code")) > 0:
+        insertTwoFactorCode(driver)
+
     # wait until the login process finishes
     wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
 
+def insertTwoFactorCode(driver):
+    wait = WebDriverWait(driver, 20)
+    authText = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "h5.grid-panel__subtitle")))
+    log.info(f'Enter 2FA code ({authText.text})')
+    code = input('Code: ')
+    codeInput = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.codefield__code--empty > div > input")))
+    codeInput.send_keys(code)
+
+    submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
+    driver.execute_script("arguments[0].click();", submitButton)
+    log.info("Code submitted")
 
 def setTwitchQuality(driver):
+    """
+    Sets the Twitch player quality to the last setting in the video quality list.
+    This corresponds to setting the video quality to the lowest value.
+    """
     wait = WebDriverWait(driver, 10)
     wait.until(ec.frame_to_be_available_and_switch_to_it((By.CSS_SELECTOR, "iframe[title=Twitch]")))
     settingsButton = wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "button[data-a-target=player-settings-button]")))
@@ -142,6 +173,9 @@ def setTwitchPlayer(driver):
         raise Exception("Player already set to Twitch")
 
 def findRewardsCheckmark(driver):
+    """
+    Checks if the user is currently eligible to receive rewards.
+    """
     wait = WebDriverWait(driver, 15)
     try:
         wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div[class=status-summary] g")))
@@ -255,7 +289,10 @@ while True:
     driver.get("https://lolesports.com/schedule")
     time.sleep(5)
     liveMatches = getLiveMatches(driver)
-    log.info(f"There are {len(liveMatches)} matches live")
+    if len(liveMatches) == 1:
+        log.info(f"There is 1 match live")
+    else:
+        log.info(f"There are {len(liveMatches)} matches live")
 
     # Close windows finished matches
     toRemove = []
