@@ -28,8 +28,8 @@ OVERRIDES = {
     "https://lolesports.com/live/ljl-japan/ljl":"https://lolesports.com/live/ljl-japan/riotgamesjp",
     "https://lolesports.com/live/ljl-japan":"https://lolesports.com/live/ljl-japan/riotgamesjp",
     "https://lolesports.com/live/turkiye-sampiyonluk-ligi":"https://lolesports.com/live/turkiye-sampiyonluk-ligi/riotgamesturkish",
-    "https://lolesports.com/live/cblol-brazil":"https://lolesports.com/live/cblol-brazil/cblol"
-    "https://lolesports.com/live/pcs/lXLbvl3T_lc":"https://lolesports.com/live/pcs/lolpacific"
+    "https://lolesports.com/live/cblol-brazil":"https://lolesports.com/live/cblol-brazil/cblol",
+    "https://lolesports.com/live/pcs/lXLbvl3T_lc":"https://lolesports.com/live/pcs/lolpacific",
     "https://lolesports.com/live/ljl_academy/ljl":"https://lolesports.com/live/ljl_academy/riotgamesjp"
 }
 
@@ -290,5 +290,5 @@ while True:
         time.sleep(5)
 
     driver.switch_to.window(originalWindow)
-    log.info(f"Next check: {datetime.now() + timedelta(seconds=args.delay)}")
+    log.info(f"Next check: {datetime.now() + timedelta(seconds=delay)}")
     time.sleep(delay)
