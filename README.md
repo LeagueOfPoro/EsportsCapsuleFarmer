@@ -16,7 +16,7 @@ This tool makes the Chrome browser watch the matches for you!
 
 ### Video Tutorial
 
-_(Outdated, the updated version will be added this week.)_
+_(Outdated, will be updated in the future)_
 
 [![Tutorial](https://img.youtube.com/vi/FCk6MoSjt5w/0.jpg)](https://www.youtube.com/watch?v=FCk6MoSjt5w)
 
@@ -131,8 +131,8 @@ options:
 1.  `pipenv install --dev`
 2.  `pipenv run pyinstaller -F --icon=poro.ico ./main.py`
 
-## Future features
-- Force the video player to use Twitch (in progress)
+## Forks
+[Dockerized version for Raspbery Pi](https://github.com/kacperkr90/EsportsCapsuleFarmer) by [kacperkr90](https://github.com/kacperkr90)
 
 ## Support my work
 <a href='https://www.youtube.com/channel/UCwgpdTScSd788qILhLnyyyw/join' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://share.leagueofporo.com/yt_member.png' border='0' alt='Become a channel member on YouTube' />
