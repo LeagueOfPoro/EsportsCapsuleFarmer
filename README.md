@@ -80,6 +80,8 @@ The program supports multiple accounts by default. However, if you want to use t
 
 ## Common Errors/Issues
 
+- *My username/password contains special characters and the program cannot login automatically*
+    - Do you have quotes arund the username/password? Correct: `password: "P@$$w0rd"`; Incorrect: `password: P@$$w0rd`
 - *The Riot Account login page is not loading*
     - Simply refresh the page a bunch of times. This is an issue with the website, not the program.
 - *There are warnings / errors but the program runs fine* 
