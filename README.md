@@ -39,8 +39,6 @@ _Note: I am using Google Chrome + automatic login + headless. This will be the m
 
 **⚠️ The configuration file ([config.yaml](config.yaml)) MUST be present in the SAME folder as the executable! To use non-default path, see [CLI](#cli).**
 
-**⚠️ Automatic login will not work with 2FA enabled.**
-
 Default configuration:
 ```yaml
 headless: false
