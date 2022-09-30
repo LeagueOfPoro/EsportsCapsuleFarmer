@@ -41,3 +41,5 @@ class Config():
 
         if not (self.isHeadless and self.hasAutoLogin):
             self.log.info("Consider using the headless mode for improved performance and stability.")
+
+        return self
