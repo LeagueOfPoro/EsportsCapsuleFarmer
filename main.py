@@ -4,7 +4,7 @@ import time
 import argparse
 
 # Classes
-from Classes.Setup.Login import Login
+from Classes.Setup.LoginHandler import LoginHandler
 from Classes.Setup.Webdriver import Webdriver
 from Classes.Setup.Logger import Logger
 from Classes.Setup.Config import Config
@@ -41,14 +41,14 @@ except Exception as ex:
     input()
     exit()
 
-login = Login(log=log, driver=driver)
+loginHandler = LoginHandler(log=log, driver=driver)
 
 driver.get("https://lolesports.com/schedule")
 
 # Handle login
 if hasAutoLogin:
     try:
-        login.automaticLogIn(username, password)
+        loginHandler.automaticLogIn(username, password)
     except TimeoutException:
         log.error("Automatic login failed, incorrect credentials?")
         if isHeadless:
