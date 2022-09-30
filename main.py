@@ -31,7 +31,8 @@ OVERRIDES = {
     "https://lolesports.com/live/cblol-brazil":"https://lolesports.com/live/cblol-brazil/cblol",
     "https://lolesports.com/live/pcs/lXLbvl3T_lc":"https://lolesports.com/live/pcs/lolpacific",
     "https://lolesports.com/live/ljl_academy/ljl":"https://lolesports.com/live/ljl_academy/riotgamesjp",
-    "https://lolesports.com/live/european-masters":"https://lolesports.com/live/european-masters/EUMasters"
+    "https://lolesports.com/live/european-masters":"https://lolesports.com/live/european-masters/EUMasters",
+    "https://lolesports.com/live/worlds":"https://lolesports.com/live/worlds/riotgames",
 }
 
 def createWebdriver(browser, headless):
@@ -100,7 +101,7 @@ def logIn(driver, username, password):
     log.info("Credentials submitted")
 
     # check for 2FA
-    time.sleep(5);
+    time.sleep(5)
     if len(driver.find_elements(by=By.CSS_SELECTOR, value="div.text__web-code")) > 0:
         insertTwoFactorCode(driver)
 
@@ -220,7 +221,14 @@ except KeyError:
 
 if not (isHeadless and hasAutoLogin):
     log.info("Consider using the headless mode for improved performance and stability.")
-driver = createWebdriver(browser, isHeadless and hasAutoLogin)
+
+try:
+    driver = createWebdriver(browser, isHeadless and hasAutoLogin)
+except Exception as ex:
+    print(ex)
+    print("CANNOT CREATE A WEBDRIVER!\nPress any key to exit...")
+    input()
+    exit()
 
 driver.get("https://lolesports.com/schedule")
 
