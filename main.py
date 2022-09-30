@@ -3,8 +3,6 @@ import logging.config
 from this import d
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException
 import time
 import yaml
@@ -17,6 +15,7 @@ from Functions.Setup.Config import readConfig
 # Classes
 from Classes.Setup.Login import Login
 from Classes.Setup.Webdriver import Webdriver
+from Classes.Setup.Logger import Logger
 from Classes.EsportCapsuleFarmer.Rewards import Rewards
 from Classes.EsportCapsuleFarmer.Match import Match
 from Classes.EsportCapsuleFarmer.Twitch import Twitch
@@ -60,18 +59,7 @@ print("*********************************************************")
 print()
 
 # Mutes preexisting loggers like selenium_driver_updater
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': True,
-})
-
-log = logging.getLogger("League of Poro")
-log.setLevel('DEBUG')
-ch = logging.StreamHandler()
-ch.setLevel('DEBUG')
-formatter = logging.Formatter('%(levelname)s: %(asctime)s - %(message)s', '%Y/%m/%d %H:%M:%S')
-ch.setFormatter(formatter)
-log.addHandler(ch)
+log = Logger().createLogger()
 
 hasAutoLogin = False
 isHeadless = False
