@@ -1,21 +1,16 @@
-import logging
-import logging.config
-from this import d
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import time
-import yaml
 import argparse
 from datetime import datetime, timedelta
-
-# Functions
-from Functions.Setup.Config import readConfig
 
 # Classes
 from Classes.Setup.Login import Login
 from Classes.Setup.Webdriver import Webdriver
 from Classes.Setup.Logger import Logger
+from Classes.Setup.Config import Config
+
 from Classes.EsportCapsuleFarmer.Rewards import Rewards
 from Classes.EsportCapsuleFarmer.Match import Match
 from Classes.EsportCapsuleFarmer.Twitch import Twitch
@@ -60,35 +55,9 @@ print()
 
 # Mutes preexisting loggers like selenium_driver_updater
 log = Logger().createLogger()
-
-hasAutoLogin = False
-isHeadless = False
-username = "NoUsernameInConfig" # None
-password = "NoPasswordInConfig" # None
-browser = args.browser
-delay = args.delay
-try:
-    config = readConfig(args.configPath)
-    log.info(f"Using configuration from: {args.configPath}")
-    if "autologin" in config and config["autologin"]["enable"]:
-        username = config["autologin"]["username"]
-        password = config["autologin"]["password"]
-        hasAutoLogin = True
-    if "headless" in config:
-        isHeadless = config["headless"]
-    if "browser" in config and config["browser"] in ['chrome', 'firefox', 'edge']:
-        browser = config["browser"]
-    if "delay" in config:
-        delay = int(config["delay"])
-except FileNotFoundError:
-    log.warning("Configuration file not found. IGNORING...")
-except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:
-    log.warning("Invalid configuration file. IGNORING...")
-except KeyError:
-    log.warning("Configuration file is missing mandatory entries. Using default values instead...")
-
-if not (isHeadless and hasAutoLogin):
-    log.info("Consider using the headless mode for improved performance and stability.")
+config = Config(log=log, args=args)
+config.readConfig()
+hasAutoLogin, isHeadless, username, password, browser, delay = config.getArgs()
 
 try:
     webdriver = Webdriver(browser=browser, headless=isHeadless and hasAutoLogin)
