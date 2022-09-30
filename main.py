@@ -14,6 +14,11 @@ import yaml
 import argparse
 from datetime import datetime, timedelta
 
+from CustomFormatter import CustomFormatter
+import os
+os.system("")
+
+
 # Force Twitch player
 OVERRIDES = {
     "https://lolesports.com/live/lck_challengers_league":"https://lolesports.com/live/lck_challengers_league/lckcl",
@@ -97,7 +102,7 @@ def logIn(driver, username, password):
     passwordInput.send_keys(password)
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
     driver.execute_script("arguments[0].click();", submitButton)
-    log.info("Credentials submitted")
+    log.debug("Credentials submitted")
 
     # check for 2FA
     time.sleep(5);
@@ -117,7 +122,7 @@ def insertTwoFactorCode(driver):
 
     submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
     driver.execute_script("arguments[0].click();", submitButton)
-    log.info("Code submitted")
+    log.debug("Code submitted")
 
 def setTwitchQuality(driver):
     """
@@ -150,14 +155,14 @@ def checkRewards(driver, url, retries=5):
     match = splitUrl[1] if 1 < len(splitUrl) else "Match "
     for i in range(retries):
         if findRewardsCheckmark(driver):
-            log.info(f"{match} is eligible for rewards ✓")
+            log.debug(f"{match} is eligible for rewards ✓")
             break
         else:
             if i < 4:
-                log.info(f"{match} is not eligible for rewards. Retrying...")
+                log.warning(f"{match} is not eligible for rewards. Retrying...")
                 driver.refresh()
             else:
-                log.warning(f"{match} is not eligible for rewards") 
+                log.error(f"{match} is not eligible for rewards") 
     
     
 
@@ -188,8 +193,7 @@ log = logging.getLogger("League of Poro")
 log.setLevel('DEBUG')
 ch = logging.StreamHandler()
 ch.setLevel('DEBUG')
-formatter = logging.Formatter('%(levelname)s: %(asctime)s - %(message)s', '%Y/%m/%d %H:%M:%S')
-ch.setFormatter(formatter)
+ch.setFormatter(CustomFormatter())
 log.addHandler(ch)
 
 hasAutoLogin = False
@@ -219,7 +223,7 @@ except KeyError:
     log.warning("Configuration file is missing mandatory entries. Using default values instead...")
 
 if not (isHeadless and hasAutoLogin):
-    log.info("Consider using the headless mode for improved performance and stability.")
+    log.warning("Consider using the headless mode for improved performance and stability.")
 driver = createWebdriver(browser, isHeadless and hasAutoLogin)
 
 driver.get("https://lolesports.com/schedule")
@@ -238,9 +242,9 @@ while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-n
     if not hasAutoLogin:
         log.info("Waiting for login")
     else: 
-        log.info("Please log in manually")
+        log.warning("Please log in manually")
     time.sleep(5)
-log.info("Okay, we're in")
+log.debug("Okay, we're in")
 
 currentWindows = {}
 originalWindow = driver.current_window_handle
@@ -287,9 +291,9 @@ while True:
         checkRewards(driver, url)
         try:
             setTwitchQuality(driver)
-            log.info("Twitch quality set successfully")
+            log.debug("Twitch quality set successfully")
         except TimeoutException:
-            log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
+            log.critical(f"Cannot set the Twitch player quality. Is the match on Twitch?")
         time.sleep(5)
 
     driver.switch_to.window(originalWindow)
