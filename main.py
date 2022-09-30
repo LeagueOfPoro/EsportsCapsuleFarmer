@@ -13,7 +13,8 @@ from Classes.Setup.Config import Config
 
 from Classes.EsportCapsuleFarmer.Rewards import Rewards
 from Classes.EsportCapsuleFarmer.Match import Match
-from Classes.EsportCapsuleFarmer.Twitch import Twitch
+
+from Classes.EsportCapsuleFarmer.Providers.Twitch import Twitch
 
 # Force Twitch player
 OVERRIDES = {
