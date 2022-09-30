@@ -8,7 +8,7 @@ class Login:
         self.log = log
         self.driver = driver
 
-    def logIn(self, username, password):
+    def automaticLogIn(self, username, password):
         """
         Automatically logs into the user's account on the LoL Esports website.
         """
