@@ -14,6 +14,24 @@ class Config():
     def getArgs(self):
         return self.hasAutoLogin, self.isHeadless, self.username, self.password, self.browser, self.delay
 
+    def getAutoLogin(self):
+        return self.hasAutoLogin
+
+    def getIsHeadless(self):
+        return self.isHeadless
+
+    def getUsername(self):
+        return self.username
+
+    def getPassword(self):
+        return self.password
+
+    def getBrowser(self):
+        return self.browser
+
+    def getDelay(self):
+        return self.delay
+
     def openConfigFile(self, filepath):
         with open(filepath, "r",  encoding='utf-8') as f:
             return yaml.safe_load(f)
