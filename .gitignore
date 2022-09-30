@@ -1,3 +1,5 @@
+chromedriver
+
 # Sensitive configs
 config.dev.yaml
 *.exe
