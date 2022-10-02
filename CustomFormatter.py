@@ -12,13 +12,12 @@ class CustomFormatter(logging.Formatter):
 
     FORMATS = {
         logging.DEBUG: green + format + reset,
-        logging.INFO: grey + format + reset,
+        logging.INFO: grey + format + reset, 
         logging.WARNING: yellow + format + reset,
         logging.ERROR: red + format + reset,
         logging.CRITICAL: bold_red + format + reset
     }
 
-    #record example: <LogRecord: League of Poro, 20, C:\EsportsCapsuleFarmer\main.py, 93, "Moving to login page">
     def format(self, record):
         log_fmt = self.FORMATS.get(record.levelno)
         formatter = logging.Formatter(log_fmt,"%Y/%m/%d %H:%M:%S")

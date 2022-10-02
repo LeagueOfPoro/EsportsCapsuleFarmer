@@ -14,6 +14,7 @@ import yaml
 import argparse
 from datetime import datetime, timedelta
 from CustomFormatter import CustomFormatter
+#need to import os cause of this https://stackoverflow.com/a/64222858
 import os
 os.system("")
 
