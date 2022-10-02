@@ -13,7 +13,6 @@ import time
 import yaml
 import argparse
 from datetime import datetime, timedelta
-
 from CustomFormatter import CustomFormatter
 import os
 os.system("")
@@ -224,20 +223,8 @@ except KeyError:
     log.warning("Configuration file is missing mandatory entries. Using default values instead...")
 
 if not (isHeadless and hasAutoLogin):
-<<<<<<< HEAD
     log.warning("Consider using the headless mode for improved performance and stability.")
 driver = createWebdriver(browser, isHeadless and hasAutoLogin)
-=======
-    log.info("Consider using the headless mode for improved performance and stability.")
-
-try:
-    driver = createWebdriver(browser, isHeadless and hasAutoLogin)
-except Exception as ex:
-    print(ex)
-    print("CANNOT CREATE A WEBDRIVER!\nPress any key to exit...")
-    input()
-    exit()
->>>>>>> 57cf4ae9e693f10f9ef4866ee4bf5199c7013943
 
 driver.get("https://lolesports.com/schedule")
 
