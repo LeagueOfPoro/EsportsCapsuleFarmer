@@ -224,7 +224,13 @@ except KeyError:
 
 if not (isHeadless and hasAutoLogin):
     log.warning("Consider using the headless mode for improved performance and stability.")
-driver = createWebdriver(browser, isHeadless and hasAutoLogin)
+try:
+    driver = createWebdriver(browser, isHeadless and hasAutoLogin)
+except Exception as ex:
+    print(ex)
+    print("CANNOT CREATE A WEBDRIVER!\nPress any key to exit...")
+    input()
+    exit()
 
 driver.get("https://lolesports.com/schedule")
 
