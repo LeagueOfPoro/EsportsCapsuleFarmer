@@ -29,7 +29,7 @@ class Rewards:
                 break
             else:
                 if i < 4:
-                    self.log.info(f"{match} is not eligible for rewards. Retrying...")
+                    self.log.warning(f"{match} is not eligible for rewards. Retrying...")
                     self.driver.refresh()
                 else:
-                    self.log.warning(f"{match} is not eligible for rewards") 
+                    self.log.error(f"{match} is not eligible for rewards") 

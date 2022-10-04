@@ -1,3 +1,4 @@
+import logging
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -28,7 +29,7 @@ class LoginHandler:
         passwordInput.send_keys(password)
         submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
         self.driver.execute_script("arguments[0].click();", submitButton)
-        self.log.info("Credentials submitted")
+        self.log.debug("Credentials submitted")
 
         # check for 2FA
         time.sleep(5)
@@ -48,4 +49,4 @@ class LoginHandler:
 
         submitButton = wait.until(ec.element_to_be_clickable((By.CSS_SELECTOR, "button[type=submit]")))
         self.driver.execute_script("arguments[0].click();", submitButton)
-        self.log.info("Code submitted")
+        self.log.debug("Code submitted")

@@ -1,6 +1,8 @@
 import logging
 import logging.config
 
+from Classes.Setup.Logger.CustomFormatter import CustomFormatter
+
 class Logger:
     def createLogger(self):
         logging.config.dictConfig({
@@ -12,8 +14,7 @@ class Logger:
         log.setLevel('DEBUG')
         ch = logging.StreamHandler()
         ch.setLevel('DEBUG')
-        formatter = logging.Formatter('%(levelname)s: %(asctime)s - %(message)s', '%Y/%m/%d %H:%M:%S')
-        ch.setFormatter(formatter)
+        ch.setFormatter(CustomFormatter())
         log.addHandler(ch)
 
         return log

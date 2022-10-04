@@ -100,7 +100,7 @@ class Match:
             self.rewards.checkRewards(url)
             try:
                 self.twitch.setTwitchQuality()
-                self.log.info("Twitch quality set successfully")
+                self.log.debug("Twitch quality set successfully")
             except TimeoutException:
-                self.log.warning(f"Cannot set the Twitch player quality. Is the match on Twitch?")
+                self.log.critical(f"Cannot set the Twitch player quality. Is the match on Twitch?")
             time.sleep(5)

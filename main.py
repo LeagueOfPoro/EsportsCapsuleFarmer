@@ -6,7 +6,7 @@ import argparse
 # Classes
 from Classes.Setup.LoginHandler import LoginHandler
 from Classes.Setup.Webdriver import Webdriver
-from Classes.Setup.Logger import Logger
+from Classes.Setup.Logger.Logger import Logger
 from Classes.Setup.Config import Config
 
 from Classes.EsportCapsuleFarmer.Match import Match
@@ -60,8 +60,8 @@ while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-n
     if not hasAutoLogin:
         log.info("Waiting for login")
     else: 
-        log.info("Please log in manually")
+        log.warning("Please log in manually")
     time.sleep(5)
-log.info("Okay, we're in")
+log.debug("Okay, we're in")
 
 Match(log=log, driver=driver).watchForMatches(delay=delay)
