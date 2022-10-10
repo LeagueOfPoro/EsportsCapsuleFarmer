@@ -1,5 +1,6 @@
 version: 1.1
 
+delay: 600
 headless: false               # set to true to run the browser in the background; autologin needs to be enabled
 autologin:
   enable: false               # set to true to enable automatic login

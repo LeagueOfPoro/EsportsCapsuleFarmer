@@ -1,3 +1,8 @@
+chromedriver
+
+# macOS 
+.DS_Store
+
 # Sensitive configs
 config.dev.yaml
 *.exe

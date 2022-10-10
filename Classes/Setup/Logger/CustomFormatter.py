@@ -1,5 +1,9 @@
 import logging
 
+#need to import os cause of this https://stackoverflow.com/a/64222858
+import os
+os.system("")
+
 class CustomFormatter(logging.Formatter):
 
     grey = "\x1b[38m"
