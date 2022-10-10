@@ -179,7 +179,7 @@ parser.add_argument('-d', '--delay', dest="delay", default=600, type=int,
 args = parser.parse_args()
 
 print("*********************************************************")
-print("*          Thank you for using Capsule Farmer!          *")
+print("*        Thank you for using Capsule Farmer v3.6!       *")
 print("* Please consider supporting League of Poro on YouTube. *")
 print("*********************************************************")
 print()
