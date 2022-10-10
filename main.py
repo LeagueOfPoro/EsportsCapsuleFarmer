@@ -5,6 +5,7 @@ import argparse
 
 # Classes
 from EsportsCapsuleFarmer.Setup.LoginHandler import LoginHandler
+from EsportsCapsuleFarmer.Setup.VersionManager import VersionManager
 from EsportsCapsuleFarmer.Setup.Webdriver import Webdriver
 from EsportsCapsuleFarmer.Setup.Logger.Logger import Logger
 from EsportsCapsuleFarmer.Setup.Config import Config
@@ -12,6 +13,8 @@ from EsportsCapsuleFarmer.Setup.Config import Config
 from EsportsCapsuleFarmer.Match import Match
 
 ###################################################
+
+CURRENT_VERSION = 3.6
 
 parser = argparse.ArgumentParser(prog='CapsuleFarmer.exe', description='Farm Esports Capsules by watching lolesports.com.')
 parser.add_argument('-b', '--browser', dest="browser", choices=['chrome', 'firefox', 'edge'], default="chrome",
@@ -23,7 +26,7 @@ parser.add_argument('-d', '--delay', dest="delay", default=600, type=int,
 args = parser.parse_args()
 
 print("*********************************************************")
-print("*        Thank you for using Capsule Farmer v3.6!       *")
+print(f"*        Thank you for using Capsule Farmer v{CURRENT_VERSION}!       *")
 print("* Please consider supporting League of Poro on YouTube. *")
 print("*********************************************************")
 print()
@@ -33,11 +36,14 @@ log = Logger().createLogger()
 config = Config(log=log, args=args).readConfig()
 hasAutoLogin, isHeadless, username, password, browser, delay = config.getArgs()
 
+if not VersionManager.isLatestVersion(CURRENT_VERSION):
+    log.warning("NEW VERSION AVAILABLE!!! Download it from: https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases/latest")
+
 try:
     driver = Webdriver(browser=browser, headless=isHeadless and hasAutoLogin).createWebdriver()
 except Exception as ex:
     print(ex)
-    print("CANNOT CREATE A WEBDRIVER!\nPress any key to exit...")
+    print("CANNOT CREATE A WEBDRIVER! Are you running the latest browser?\nPress any key to exit...")
     input()
     exit()
 
