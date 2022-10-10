@@ -3,8 +3,8 @@ import time
 from datetime import datetime, timedelta
 from selenium.common.exceptions import TimeoutException
 
-from Classes.EsportCapsuleFarmer.Rewards import Rewards
-from Classes.EsportCapsuleFarmer.Providers.Twitch import Twitch
+from EsportsCapsuleFarmer.Rewards import Rewards
+from EsportsCapsuleFarmer.Providers.Twitch import Twitch
 
 class Match:
     # Force Twitch player

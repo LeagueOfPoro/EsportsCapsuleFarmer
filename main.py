@@ -4,12 +4,12 @@ import time
 import argparse
 
 # Classes
-from Classes.Setup.LoginHandler import LoginHandler
-from Classes.Setup.Webdriver import Webdriver
-from Classes.Setup.Logger.Logger import Logger
-from Classes.Setup.Config import Config
+from EsportsCapsuleFarmer.Setup.LoginHandler import LoginHandler
+from EsportsCapsuleFarmer.Setup.Webdriver import Webdriver
+from EsportsCapsuleFarmer.Setup.Logger.Logger import Logger
+from EsportsCapsuleFarmer.Setup.Config import Config
 
-from Classes.EsportCapsuleFarmer.Match import Match
+from EsportsCapsuleFarmer.Match import Match
 
 ###################################################
 

@@ -1,7 +1,7 @@
 import logging
 import logging.config
 
-from Classes.Setup.Logger.CustomFormatter import CustomFormatter
+from EsportsCapsuleFarmer.Setup.Logger.CustomFormatter import CustomFormatter
 
 class Logger:
     def createLogger(self):
