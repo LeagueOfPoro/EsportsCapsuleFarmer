@@ -9,7 +9,7 @@ class Rewards:
         self.driver = driver
         pass
 
-    def findRewardsCheckmark(self):
+    def findRewardsCheckmark(self, driver):
         """
         Checks if the user is currently eligible to receive rewards.
         """
