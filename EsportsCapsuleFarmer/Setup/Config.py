@@ -10,9 +10,10 @@ class Config():
         self.password = "NoPasswordInConfig" # None
         self.browser = args.browser
         self.delay = args.delay
+        self.customOverrides = {}
 
     def getArgs(self):
-        return self.hasAutoLogin, self.isHeadless, self.username, self.password, self.browser, self.delay
+        return self.hasAutoLogin, self.isHeadless, self.username, self.password, self.browser, self.delay, self.customOverrides
 
     def getAutoLogin(self):
         return self.hasAutoLogin
@@ -50,6 +51,9 @@ class Config():
                 self.browser = config["browser"]
             if "delay" in config:
                 self.delay = int(config["delay"])
+            if "customOverrides" in config:
+                for entry in config["customOverrides"]:
+                    self.customOverrides[entry["from"]] = entry["to"]
         except FileNotFoundError:
             self.log.warning("Configuration file not found. IGNORING...")
         except (yaml.scanner.ScannerError, yaml.parser.ParserError) as e:

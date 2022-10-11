@@ -2,6 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 import time
 import argparse
+from EsportsCapsuleFarmer.Overrides import Overrides
 
 # Classes
 from EsportsCapsuleFarmer.Setup.LoginHandler import LoginHandler
@@ -34,7 +35,8 @@ print()
 # Mutes preexisting loggers like selenium_driver_updater
 log = Logger().createLogger()
 config = Config(log=log, args=args).readConfig()
-hasAutoLogin, isHeadless, username, password, browser, delay = config.getArgs()
+hasAutoLogin, isHeadless, username, password, browser, delay, customOverrides = config.getArgs()
+overrides = Overrides(customOverrides)
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
     log.warning("NEW VERSION AVAILABLE!!! Download it from: https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases/latest")
@@ -70,4 +72,4 @@ while not driver.find_elements(by=By.CSS_SELECTOR, value="div.riotbar-summoner-n
     time.sleep(5)
 log.debug("Okay, we're in")
 
-Match(log=log, driver=driver).watchForMatches(delay=delay)
+Match(log=log, driver=driver, overrides=overrides).watchForMatches(delay=delay)
