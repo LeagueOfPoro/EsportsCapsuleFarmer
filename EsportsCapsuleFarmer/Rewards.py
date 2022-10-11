@@ -24,7 +24,7 @@ class Rewards:
         splitUrl = url.rsplit('/',1)
         match = splitUrl[1] if 1 < len(splitUrl) else "Match "
         for i in range(retries):
-            if self.findRewardsCheckmark(self.driver):
+            if self.findRewardsCheckmark():
                 self.log.info(f"{match} is eligible for rewards ✓")
                 break
             else:
