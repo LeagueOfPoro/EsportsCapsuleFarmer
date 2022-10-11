@@ -33,7 +33,7 @@ class LoginHandler:
         # check for 2FA
         time.sleep(5)
         if len(self.driver.find_elements(by=By.CSS_SELECTOR, value="div.text__web-code")) > 0:
-            self.insertTwoFactorCode(self.driver)
+            self.insertTwoFactorCode()
 
         # wait until the login process finishes
         wait.until(ec.presence_of_element_located((By.CSS_SELECTOR, "div.riotbar-summoner-name")))
