@@ -7,32 +7,13 @@ from EsportsCapsuleFarmer.Rewards import Rewards
 from EsportsCapsuleFarmer.Providers.Twitch import Twitch
 
 class Match:
-    # Force Twitch player
-    OVERRIDES = {
-        "https://lolesports.com/live/lck_challengers_league":"https://lolesports.com/live/lck_challengers_league/lckcl",
-        "https://lolesports.com/live/lpl":"https://lolesports.com/live/lpl/lpl",
-        "https://lolesports.com/live/lck":"https://lolesports.com/live/lck/lck",
-        "https://lolesports.com/live/lec":"https://lolesports.com/live/lec/lec",
-        "https://lolesports.com/live/lcs":"https://lolesports.com/live/lcs/lcs",
-        "https://lolesports.com/live/lco":"https://lolesports.com/live/lco/lco",
-        "https://lolesports.com/live/cblol_academy":"https://lolesports.com/live/cblol_academy/cblol",
-        "https://lolesports.com/live/cblol":"https://lolesports.com/live/cblol/cblol",
-        "https://lolesports.com/live/lla":"https://lolesports.com/live/lla/lla",
-        "https://lolesports.com/live/ljl-japan/ljl":"https://lolesports.com/live/ljl-japan/riotgamesjp",
-        "https://lolesports.com/live/ljl-japan":"https://lolesports.com/live/ljl-japan/riotgamesjp",
-        "https://lolesports.com/live/turkiye-sampiyonluk-ligi":"https://lolesports.com/live/turkiye-sampiyonluk-ligi/riotgamesturkish",
-        "https://lolesports.com/live/cblol-brazil":"https://lolesports.com/live/cblol-brazil/cblol",
-        "https://lolesports.com/live/pcs/lXLbvl3T_lc":"https://lolesports.com/live/pcs/lolpacific",
-        "https://lolesports.com/live/ljl_academy/ljl":"https://lolesports.com/live/ljl_academy/riotgamesjp",
-        "https://lolesports.com/live/european-masters":"https://lolesports.com/live/european-masters/EUMasters",
-        "https://lolesports.com/live/worlds":"https://lolesports.com/live/worlds/riotgames",
-    }
 
-    def __init__(self, log, driver) -> None:
+    def __init__(self, log, driver, overrides) -> None:
         self.log = log
         self.driver = driver
         self.rewards = Rewards(log=log, driver=driver)
         self.twitch = Twitch(driver=driver)
+        self.overrides = overrides
 
         self.currentWindows = {}
         self.originalWindow = self.driver.current_window_handle
@@ -91,8 +72,9 @@ class Match:
             self.driver.switch_to.new_window('tab')
             time.sleep(2)
             self.currentWindows[match] = self.driver.current_window_handle
-            if match in self.OVERRIDES:
-                url = self.OVERRIDES[match]
+            override = self.overrides.getOverride(match)
+            if override:
+                url = override
                 self.log.info(f"Overriding {match} to {url}")
             else:
                 url = match
