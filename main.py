@@ -15,7 +15,7 @@ from EsportsCapsuleFarmer.Match import Match
 
 ###################################################
 
-CURRENT_VERSION = 3.6
+CURRENT_VERSION = 3.8
 
 parser = argparse.ArgumentParser(prog='CapsuleFarmer.exe', description='Farm Esports Capsules by watching lolesports.com.')
 parser.add_argument('-b', '--browser', dest="browser", choices=['chrome', 'firefox', 'edge'], default="chrome",
@@ -36,7 +36,7 @@ print()
 log = Logger().createLogger()
 config = Config(log=log, args=args).readConfig()
 hasAutoLogin, isHeadless, username, password, browser, delay, customOverrides = config.getArgs()
-overrides = Overrides(customOverrides)
+overrides = Overrides(log, customOverrides)
 
 if not VersionManager.isLatestVersion(CURRENT_VERSION):
     log.warning("NEW VERSION AVAILABLE!!! Download it from: https://github.com/LeagueOfPoro/EsportsCapsuleFarmer/releases/latest")

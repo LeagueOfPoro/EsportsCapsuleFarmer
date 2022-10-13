@@ -13,5 +13,3 @@ class VersionManager:
     @staticmethod
     def isLatestVersion(currentVersion):
         return currentVersion >= VersionManager.getLatestTag()
-
-print(VersionManager.isLatestVersion(3.8))

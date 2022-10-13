@@ -1,7 +1,7 @@
 import requests as req
 
 class Overrides:
-    def __init__(self, customOverrides = {}) -> None:
+    def __init__(self, log, customOverrides = {}) -> None:
         self.customOverrides = customOverrides
         self.downloadedOverrides = {}
         self.downloadOverrides()
