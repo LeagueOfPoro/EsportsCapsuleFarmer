@@ -7,7 +7,7 @@ class Overrides:
         self.downloadOverrides()
     
     def downloadOverrides(self):
-        overridesResponse = req.get("https://raw.githubusercontent.com/LeagueOfPoro/EsportsCapsuleFarmer/overrides/overrides.json", headers={'Cache-Control': 'no-cache'})
+        overridesResponse = req.get("https://raw.githubusercontent.com/LeagueOfPoro/EsportsCapsuleFarmer/master/overrides.json", headers={'Cache-Control': 'no-cache'})
         self.downloadedOverrides = overridesResponse.json()
     
     def getOverride(self, url):
