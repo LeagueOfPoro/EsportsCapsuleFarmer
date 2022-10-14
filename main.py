@@ -14,7 +14,7 @@ from EsportsCapsuleFarmer.Match import Match
 
 ###################################################
 
-CURRENT_VERSION = 3.6
+CURRENT_VERSION = 3.7
 
 parser = argparse.ArgumentParser(prog='CapsuleFarmer.exe', description='Farm Esports Capsules by watching lolesports.com.')
 parser.add_argument('-b', '--browser', dest="browser", choices=['chrome', 'firefox', 'edge'], default="chrome",
