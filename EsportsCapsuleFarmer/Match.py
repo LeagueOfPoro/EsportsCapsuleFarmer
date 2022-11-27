@@ -48,7 +48,7 @@ class Match:
             time.sleep(5)
             liveMatches = self.getLiveMatches()
             if len(liveMatches) == 1:
-                self.log.info(f"There is 1 match live")
+                self.log.info("There is 1 match live")
             else:
                 self.log.info(f"There are {len(liveMatches)} matches live")
 
