@@ -102,5 +102,5 @@ class Match:
                 self.twitch.setTwitchQuality()
                 self.log.debug("Twitch quality set successfully")
             except TimeoutException:
-                self.log.critical(f"Cannot set the Twitch player quality. Is the match on Twitch?")
+                self.log.critical("Cannot set the Twitch player quality. Is the match on Twitch?")
             time.sleep(5)
