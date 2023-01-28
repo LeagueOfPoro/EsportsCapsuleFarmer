@@ -26,6 +26,7 @@ class Match:
         "https://lolesports.com/live/ljl_academy/ljl":"https://lolesports.com/live/ljl_academy/riotgamesjp",
         "https://lolesports.com/live/european-masters":"https://lolesports.com/live/european-masters/EUMasters",
         "https://lolesports.com/live/worlds":"https://lolesports.com/live/worlds/riotgames",
+        "https://lolesports.com/live/honor_league":"https://lolesports.com/live/honor_league/lvpcl",
     }
 
     def __init__(self, log, driver) -> None:
