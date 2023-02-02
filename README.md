@@ -1,6 +1,6 @@
 # League of Poro's Esports Capsule Farmer
 
-⚠️ This tool is discontinued. Please use the Evolved version here: https://github.com/LeagueOfPoro/CapsuleFarmerEvolved
+## ⚠️ This tool is discontinued. Please use the Evolved version here: https://github.com/LeagueOfPoro/CapsuleFarmerEvolved
 
 Are you tired of watching professional League of Legends games? Do you watch only for the drops?
 
