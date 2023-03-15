@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 import time
 from datetime import datetime, timedelta
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 
 from EsportsCapsuleFarmer.Rewards import Rewards
 from EsportsCapsuleFarmer.Providers.Twitch import Twitch
@@ -44,7 +44,13 @@ class Match:
         while True:
             self.driver.switch_to.window(self.originalWindow) # just to be sure
             time.sleep(2)
-            self.driver.get("https://lolesports.com/schedule")
+            try:
+                self.driver.get("https://lolesports.com/schedule")
+            except WebDriverException as e:
+                self.log.error("Checking for live matches failed, webdriver exception: %s", e.msg)
+                self.log.info(f"Next check: {datetime.now() + timedelta(seconds=delay)}")
+                time.sleep(delay)
+                continue
             time.sleep(5)
             liveMatches = self.getLiveMatches()
             if len(liveMatches) == 1:
@@ -90,13 +96,18 @@ class Match:
         for match in newLiveMatches:
             self.driver.switch_to.new_window('tab')
             time.sleep(2)
-            self.currentWindows[match] = self.driver.current_window_handle
             if match in self.OVERRIDES:
                 url = self.OVERRIDES[match]
                 self.log.info(f"Overriding {match} to {url}")
             else:
                 url = match
-            self.driver.get(url)
+            try:
+                self.driver.get(url)
+            except WebDriverException as e:
+                self.log.error("Opening match %s failed, webdriver exception: %s", url, e.msg)
+                self.driver.close()
+                continue
+            self.currentWindows[match] = self.driver.current_window_handle
             self.rewards.checkRewards(url)
             try:
                 self.twitch.setTwitchQuality()

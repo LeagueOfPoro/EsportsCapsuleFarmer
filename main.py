@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, WebDriverException
 import time
 import argparse
 
@@ -49,16 +49,25 @@ except Exception as ex:
     input()
     exit()
 
-loginHandler = LoginHandler(log=log, driver=driver)
-
-driver.get("https://lolesports.com/schedule")
+try:
+    url = "https://lolesports.com/schedule"
+    driver.get(url)
+except WebDriverException as e:
+    log.error("Failed to open %s, webdriver exception: %s", url, e.msg)
 
 # Handle login
 if hasAutoLogin:
+    loginHandler = LoginHandler(log=log, driver=driver)
     try:
         loginHandler.automaticLogIn(username, password)
     except TimeoutException:
         log.error("Automatic login failed, incorrect credentials?")
+        if isHeadless:
+            driver.quit()
+            log.info("Exiting...")
+            exit()
+    except WebDriverException as e:
+        log.error("Automatic login failed, webdriver exception: %s", e.msg)
         if isHeadless:
             driver.quit()
             log.info("Exiting...")
