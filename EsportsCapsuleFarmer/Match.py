@@ -48,7 +48,7 @@ class Match:
             time.sleep(5)
             liveMatches = self.getLiveMatches()
             if len(liveMatches) == 1:
-                self.log.info(f"There is 1 match live")
+                self.log.info("There is 1 match live")
             else:
                 self.log.info(f"There are {len(liveMatches)} matches live")
 
@@ -102,5 +102,5 @@ class Match:
                 self.twitch.setTwitchQuality()
                 self.log.debug("Twitch quality set successfully")
             except TimeoutException:
-                self.log.critical(f"Cannot set the Twitch player quality. Is the match on Twitch?")
+                self.log.critical("Cannot set the Twitch player quality. Is the match on Twitch?")
             time.sleep(5)
