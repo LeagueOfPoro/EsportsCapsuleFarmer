@@ -28,7 +28,7 @@ class Rewards:
                 self.log.info(f"{match} is eligible for rewards ✓")
                 break
             else:
-                if i < 4:
+                if i < retries - 1:
                     self.log.warning(f"{match} is not eligible for rewards. Retrying...")
                     self.driver.refresh()
                 else:
